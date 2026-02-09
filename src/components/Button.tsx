@@ -56,6 +56,14 @@ export default function Button({
         opacity: disabled ? 0.5 : 1,
         width: fullWidth ? '100%' : 'auto',
         border: variant === 'secondary' ? '1px solid #d1d5db' : 'none',
+        outline: 'none',
+        position: 'relative',
+      }}
+      onFocus={(e) => {
+        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.5)';
+      }}
+      onBlur={(e) => {
+        e.currentTarget.style.boxShadow = 'none';
       }}
     >
       {children}

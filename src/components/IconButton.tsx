@@ -5,8 +5,9 @@ import React from 'react';
 interface IconButtonProps {
   icon: string;
   onClick?: () => void;
-  variant?: 'default' | 'primary' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'ghost';
+  size?: 'sm' | 'md';
+  ariaLabel: string;
   disabled?: boolean;
 }
 
@@ -15,45 +16,36 @@ export default function IconButton({
   onClick,
   variant = 'default',
   size = 'md',
+  ariaLabel,
   disabled
 }: IconButtonProps) {
-  const getSize = () => {
-    switch (size) {
-      case 'sm': return { size: 32, fontSize: 16 };
-      case 'lg': return { size: 48, fontSize: 24 };
-      default: return { size: 40, fontSize: 20 };
-    }
-  };
-
-  const getVariantStyles = () => {
-    switch (variant) {
-      case 'primary':
-        return { backgroundColor: '#3B82F6', color: '#ffffff' };
-      case 'danger':
-        return { backgroundColor: '#FEE2E2', color: '#EF4444' };
-      default:
-        return { backgroundColor: '#f3f4f6', color: '#374151' };
-    }
-  };
-
-  const { size: dimension, fontSize } = getSize();
+  const dimensions = size === 'sm' ? '32px' : '40px';
 
   return (
     <button
       onClick={onClick}
       disabled={disabled}
+      aria-label={ariaLabel}
       style={{
-        ...getVariantStyles(),
-        width: dimension,
-        height: dimension,
+        width: dimensions,
+        height: dimensions,
         borderRadius: '8px',
-        border: 'none',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
+        border: variant === 'default' ? '1px solid #d1d5db' : 'none',
+        backgroundColor: variant === 'default' ? '#ffffff' : 'transparent',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.5 : 1,
+        fontSize: size === 'sm' ? '16px' : '20px',
+        outline: 'none',
+        position: 'relative',
+      }}
+      onFocus={(e) => {
+        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.5)';
+      }}
+      onBlur={(e) => {
+        e.currentTarget.style.boxShadow = 'none';
       }}
     >
       {icon}

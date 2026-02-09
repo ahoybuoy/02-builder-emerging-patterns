@@ -19,7 +19,16 @@ export default function Toggle({ label, checked, onChange, disabled }: TogglePro
       opacity: disabled ? 0.5 : 1,
     }}>
       <div
+        role="switch"
+        aria-checked={checked}
+        tabIndex={disabled ? -1 : 0}
         onClick={() => !disabled && onChange(!checked)}
+        onKeyDown={(e) => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            if (!disabled) onChange(!checked);
+          }
+        }}
         style={{
           width: '48px',
           height: '24px',
@@ -27,6 +36,7 @@ export default function Toggle({ label, checked, onChange, disabled }: TogglePro
           backgroundColor: checked ? '#3B82F6' : '#d1d5db',
           position: 'relative',
           transition: 'background-color 0.2s',
+          outline: 'none',
         }}
       >
         <div style={{
